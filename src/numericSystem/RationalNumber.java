@@ -158,7 +158,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 		case 2:
 			u = (T) Short.valueOf((short) Math.abs(numerator.shortValue()));
 			d = (T) Short.valueOf((short) Math.abs(denominator.shortValue()));
-			while (d.longValue() != 0) {
+			while (d.shortValue() != 0) {
 				aux = (T) Short.valueOf((short) (u.shortValue() % d.shortValue()));
 				u = d;
 				d = aux;
@@ -167,7 +167,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 		case 3:
 			u = (T) Integer.valueOf(Math.abs(numerator.intValue()));
 			d = (T) Integer.valueOf(Math.abs(denominator.intValue()));
-			while (d.longValue() != 0) {
+			while (d.intValue() != 0) {
 				aux = (T) Integer.valueOf(u.intValue() % d.intValue());
 				u = d;
 				d = aux;
@@ -180,8 +180,29 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 
 	@Override
 	public void rationalInverse() {
-		// TODO Auto-generated method stub
-
+		T temp = numerator;
+		
+		switch (verifyNumberData(numerator, denominator)) {
+		case 1:
+			if(numerator.longValue()!=0) {
+				numerator = denominator;
+				denominator = temp;
+			}
+			break;
+		case 2:
+			if(numerator.shortValue()!=0) {
+				numerator = denominator;
+				denominator = temp;
+			}
+			break;
+		case 3:
+			if(numerator.intValue()!=0) {
+				numerator = denominator;
+				denominator = temp;
+			}
+			break;
+		}
+		simplifyRational();
 	}
 
 	@Override
