@@ -10,9 +10,19 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 		this.denominator = denominator;
 	}
 	
-	public int verifyNumberData(T n1, T n2) {
-		int value = 0;
+	public boolean verifyDenominatorNumber(T denominator) throws OperationError {
+		boolean isCorrect = false;
+		if(denominator.intValue() != 0) {
+			isCorrect = true;
+		}else {
+			throw new OperationError();
+		}
 		
+		return isCorrect;
+	}
+	
+	public int verifyNumberData() {
+		int value = 0;
 		if (numerator instanceof Long || denominator instanceof Long) {
 			value = 1;
 		} else if (numerator instanceof Short || denominator instanceof Short) {
@@ -25,82 +35,88 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 	}
 
 	@Override
-	public void addRational(RationalNumber<Number> rationalToBeAdded) {
-		if(denominator == rationalToBeAdded.getDenominator()) {
-			if(numerator instanceof Long) {
-				numerator = (T)Long.valueOf(numerator.longValue() + rationalToBeAdded.getNumerator().longValue());
-			}else if(numerator instanceof Short) {
-				numerator = (T)Short.valueOf((short) (numerator.shortValue() + rationalToBeAdded.getNumerator().shortValue()));
+	public void addRational(RationalNumber<Number> rationalToBeAdded) throws OperationError {
+		if(verifyDenominatorNumber(denominator) && verifyDenominatorNumber((T)rationalToBeAdded.getDenominator())) {
+			if(denominator == rationalToBeAdded.getDenominator()) {
+				if(numerator instanceof Long) {
+					numerator = (T)Long.valueOf(numerator.longValue() + rationalToBeAdded.getNumerator().longValue());
+				}else if(numerator instanceof Short) {
+					numerator = (T)Short.valueOf((short) (numerator.shortValue() + rationalToBeAdded.getNumerator().shortValue()));
+				}else {
+				numerator = (T)Integer.valueOf(numerator.intValue() + rationalToBeAdded.getNumerator().intValue());
+				}
 			}else {
-			numerator = (T)Integer.valueOf(numerator.intValue() + rationalToBeAdded.getNumerator().intValue());
+				switch (verifyNumberData()) {
+				case 1:
+					numerator = (T)Long.valueOf(numerator.longValue()*rationalToBeAdded.getDenominator().longValue()
+												+denominator.longValue()*rationalToBeAdded.getNumerator().longValue());
+					denominator = (T)Long.valueOf(denominator.longValue()*rationalToBeAdded.getDenominator().longValue());
+					break;
+				case 2:
+					numerator = (T)Short.valueOf((short) (numerator.shortValue()*rationalToBeAdded.getDenominator().shortValue()
+														+ denominator.shortValue()*rationalToBeAdded.getNumerator().shortValue()));
+					denominator = (T)Short.valueOf((short)(denominator.shortValue()*rationalToBeAdded.getDenominator().shortValue()));
+					
+					break;
+				case 3:
+					numerator = (T)Integer.valueOf(numerator.intValue()*rationalToBeAdded.getDenominator().intValue()
+													+denominator.intValue()*rationalToBeAdded.getNumerator().intValue());
+					denominator = (T)Integer.valueOf(denominator.intValue()*rationalToBeAdded.getDenominator().intValue());
+					break;
+				}
 			}
-		}else {
-			switch (verifyNumberData(numerator, denominator)) {
-			case 1:
-				numerator = (T)Long.valueOf(numerator.longValue()*rationalToBeAdded.getDenominator().longValue()
-											+denominator.longValue()*rationalToBeAdded.getNumerator().longValue());
-				denominator = (T)Long.valueOf(denominator.longValue()*rationalToBeAdded.getDenominator().longValue());
-				break;
-			case 2:
-				numerator = (T)Short.valueOf((short) (numerator.shortValue()*rationalToBeAdded.getDenominator().shortValue()
-													+ denominator.shortValue()*rationalToBeAdded.getNumerator().shortValue()));
-				denominator = (T)Short.valueOf((short)(denominator.shortValue()*rationalToBeAdded.getDenominator().shortValue()));
-				
-				break;
-			case 3:
-				numerator = (T)Integer.valueOf(numerator.intValue()*rationalToBeAdded.getDenominator().intValue()
-												+denominator.intValue()*rationalToBeAdded.getNumerator().intValue());
-				denominator = (T)Integer.valueOf(denominator.intValue()*rationalToBeAdded.getDenominator().intValue());
-				break;
-			}
+			simplifyRational();
 		}
-		simplifyRational();
 	}
 
 	@Override
-	public void substractRational(RationalNumber<Number> rationalToBeSubstracted) {
-		if(denominator == rationalToBeSubstracted.getDenominator()) {
-			if(numerator instanceof Long) {
-				numerator = (T)Long.valueOf(numerator.longValue() - rationalToBeSubstracted.getNumerator().longValue());
-			}else if(numerator instanceof Short) {
-				numerator = (T)Short.valueOf((short) (numerator.shortValue() - rationalToBeSubstracted.getNumerator().shortValue()));
+	public void substractRational(RationalNumber<Number> rationalToBeSubstracted) throws OperationError {
+		if(verifyDenominatorNumber(denominator) && verifyDenominatorNumber((T)rationalToBeSubstracted.getDenominator())) {
+			if(denominator == rationalToBeSubstracted.getDenominator()) {
+				if(numerator instanceof Long) {
+					numerator = (T)Long.valueOf(numerator.longValue() - rationalToBeSubstracted.getNumerator().longValue());
+				}else if(numerator instanceof Short) {
+					numerator = (T)Short.valueOf((short) (numerator.shortValue() - rationalToBeSubstracted.getNumerator().shortValue()));
+				}else {
+				numerator = (T)Integer.valueOf(numerator.intValue() - rationalToBeSubstracted.getNumerator().intValue());
+				}
 			}else {
-			numerator = (T)Integer.valueOf(numerator.intValue() - rationalToBeSubstracted.getNumerator().intValue());
+				switch (verifyNumberData()) {
+				case 1:
+					numerator = (T)Long.valueOf(numerator.longValue()*rationalToBeSubstracted.getDenominator().longValue()
+												-denominator.longValue()*rationalToBeSubstracted.getNumerator().longValue());
+					denominator = (T)Long.valueOf(denominator.longValue()*rationalToBeSubstracted.getDenominator().longValue());
+					break;
+				case 2:
+					numerator = (T)Short.valueOf((short) (numerator.shortValue()*rationalToBeSubstracted.getDenominator().shortValue()
+														- denominator.shortValue()*rationalToBeSubstracted.getNumerator().shortValue()));
+					denominator = (T)Short.valueOf((short)(denominator.shortValue()*rationalToBeSubstracted.getDenominator().shortValue()));
+					
+					break;
+				case 3:
+					numerator = (T)Integer.valueOf(numerator.intValue()*rationalToBeSubstracted.getDenominator().intValue()
+													-denominator.intValue()*rationalToBeSubstracted.getNumerator().intValue());
+					denominator = (T)Integer.valueOf(denominator.intValue()*rationalToBeSubstracted.getDenominator().intValue());
+					break;
+				}
 			}
-		}else {
-			switch (verifyNumberData(numerator, denominator)) {
-			case 1:
-				numerator = (T)Long.valueOf(numerator.longValue()*rationalToBeSubstracted.getDenominator().longValue()
-											-denominator.longValue()*rationalToBeSubstracted.getNumerator().longValue());
-				denominator = (T)Long.valueOf(denominator.longValue()*rationalToBeSubstracted.getDenominator().longValue());
-				break;
-			case 2:
-				numerator = (T)Short.valueOf((short) (numerator.shortValue()*rationalToBeSubstracted.getDenominator().shortValue()
-													- denominator.shortValue()*rationalToBeSubstracted.getNumerator().shortValue()));
-				denominator = (T)Short.valueOf((short)(denominator.shortValue()*rationalToBeSubstracted.getDenominator().shortValue()));
-				
-				break;
-			case 3:
-				numerator = (T)Integer.valueOf(numerator.intValue()*rationalToBeSubstracted.getDenominator().intValue()
-												-denominator.intValue()*rationalToBeSubstracted.getNumerator().intValue());
-				denominator = (T)Integer.valueOf(denominator.intValue()*rationalToBeSubstracted.getDenominator().intValue());
-				break;
-			}
+			simplifyRational();
 		}
-		simplifyRational();
 	}
 	
 	@Override
-	public void multiplyRational(RationalNumber<Number> rationalFactor) {
-		this.numerator = multiply(numerator, (T) rationalFactor.getNumerator());
-		this.denominator = multiply(denominator, (T) rationalFactor.getDenominator());
-		simplifyRational();
+	public void multiplyRational(RationalNumber<Number> rationalFactor) throws OperationError {
+		if (verifyDenominatorNumber(denominator) && verifyDenominatorNumber((T)rationalFactor.getDenominator())) {
+			this.numerator = multiply(numerator, (T) rationalFactor.getNumerator());
+			this.denominator = multiply(denominator, (T) rationalFactor.getDenominator());
+			simplifyRational();
+		}
 	}
 
 	private T multiply(T n1, T n2) {
 		T number = null;
 
-		switch (verifyNumberData(n1, n2)) {
+		switch (verifyNumberData()) {
 		case 1:
 			number = (T) Long.valueOf(n1.longValue() * n2.longValue());
 			break;
@@ -114,29 +130,35 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 	}
 
 	@Override
-	public void divideRational(RationalNumber<Number> rationalQuocient) {
-		this.numerator = multiply(numerator, (T) rationalQuocient.getDenominator());
-		this.denominator = multiply(denominator, (T) rationalQuocient.getNumerator());
-		simplifyRational();
+	public void divideRational(RationalNumber<Number> rationalQuocient) throws OperationError {
+		if(verifyDenominatorNumber(denominator) && verifyDenominatorNumber((T)rationalQuocient.getDenominator())
+		  && verifyDenominatorNumber(numerator) && verifyDenominatorNumber((T)rationalQuocient.getNumerator())) {
+			
+			this.numerator = multiply(numerator, (T) rationalQuocient.getDenominator());
+			this.denominator = multiply(denominator, (T) rationalQuocient.getNumerator());
+			simplifyRational();
+		}
 	}
 
 	@Override
-	public void simplifyRational() {
-		T simplify = mcd();
-		
-		switch (verifyNumberData(numerator, denominator)) {
-		case 1:
-			numerator = (T)Long.valueOf(numerator.longValue() / simplify.longValue());
-			denominator = (T)Long.valueOf(denominator.longValue() / simplify.longValue());
-			break;
-		case 2:
-			numerator = (T)Short.valueOf((short) (numerator.shortValue() / simplify.shortValue()));
-			denominator = (T)Short.valueOf((short) (denominator.shortValue() / simplify.shortValue()));
-			break;
-		case 3:
-			numerator = (T)Integer.valueOf(numerator.intValue() / simplify.intValue());
-			denominator = (T)Integer.valueOf(denominator.intValue() / simplify.intValue());
-			break;
+	public void simplifyRational() throws OperationError {
+		if(verifyDenominatorNumber(denominator)) {
+			T simplify = mcd();
+			
+			switch (verifyNumberData()) {
+			case 1:
+				numerator = (T)Long.valueOf(numerator.longValue() / simplify.longValue());
+				denominator = (T)Long.valueOf(denominator.longValue() / simplify.longValue());
+				break;
+			case 2:
+				numerator = (T)Short.valueOf((short) (numerator.shortValue() / simplify.shortValue()));
+				denominator = (T)Short.valueOf((short) (denominator.shortValue() / simplify.shortValue()));
+				break;
+			case 3:
+				numerator = (T)Integer.valueOf(numerator.intValue() / simplify.intValue());
+				denominator = (T)Integer.valueOf(denominator.intValue() / simplify.intValue());
+				break;
+			}
 		}
 	}
 
@@ -145,7 +167,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 		T d = null;
 		T aux = null;
 		
-		switch (verifyNumberData(numerator, denominator)) {
+		switch (verifyNumberData()) {
 		case 1:
 			u = (T) Long.valueOf(Math.abs(numerator.longValue()));
 			d = (T) Long.valueOf(Math.abs(denominator.longValue()));
@@ -179,61 +201,62 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 	}
 
 	@Override
-	public void rationalInverse() {
+	public void rationalInverse() throws OperationError {
 		T temp = numerator;
 		
-		switch (verifyNumberData(numerator, denominator)) {
-		case 1:
-			if(numerator.longValue()!=0) {
-				numerator = denominator;
-				denominator = temp;
+		if (verifyDenominatorNumber(denominator)) {
+			switch (verifyNumberData()) {
+			case 1:
+				if(numerator.longValue()!=0) {
+					numerator = denominator;
+					denominator = temp;
+				}
+				break;
+			case 2:
+				if(numerator.shortValue()!=0) {
+					numerator = denominator;
+					denominator = temp;
+				}
+				break;
+			case 3:
+				if(numerator.intValue()!=0) {
+					numerator = denominator;
+					denominator = temp;
+				}
+				break;
 			}
-			break;
-		case 2:
-			if(numerator.shortValue()!=0) {
-				numerator = denominator;
-				denominator = temp;
-			}
-			break;
-		case 3:
-			if(numerator.intValue()!=0) {
-				numerator = denominator;
-				denominator = temp;
-			}
-			break;
+			simplifyRational();
 		}
-		simplifyRational();
 	}
 
 	@Override
-	public void squaredRational() {
-		
-		switch (verifyNumberData(numerator, denominator)) {
-		case 1:
-			numerator = (T) Long.valueOf(numerator.longValue() * numerator.longValue());
-			denominator = (T) Long.valueOf(denominator.longValue() * denominator.longValue());
-			break;
-		case 2:
-			numerator = (T) Short.valueOf((short) (numerator.shortValue() * numerator.shortValue()));
-			denominator = (T) Short.valueOf((short) (denominator.shortValue() * denominator.shortValue()));
-			break;
-		case 3:
-			numerator = (T) Integer.valueOf(numerator.intValue() * numerator.intValue());
-			denominator = (T) Integer.valueOf(denominator.intValue() * denominator.intValue());
-			break;
+	public void squaredRational() throws OperationError {
+		if (verifyDenominatorNumber(denominator)) {
+			switch (verifyNumberData()) {
+			case 1:
+				numerator = (T) Long.valueOf(numerator.longValue() * numerator.longValue());
+				denominator = (T) Long.valueOf(denominator.longValue() * denominator.longValue());
+				break;
+			case 2:
+				numerator = (T) Short.valueOf((short) (numerator.shortValue() * numerator.shortValue()));
+				denominator = (T) Short.valueOf((short) (denominator.shortValue() * denominator.shortValue()));
+				break;
+			case 3:
+				numerator = (T) Integer.valueOf(numerator.intValue() * numerator.intValue());
+				denominator = (T) Integer.valueOf(denominator.intValue() * denominator.intValue());
+				break;
+			}
+			simplifyRational();
 		}
-		simplifyRational();
 	}
 
 	@Override
 	public Number getNumerator() {
-		// TODO Auto-generated method stub
 		return this.numerator;
 	}
 
 	@Override
 	public Number getDenominator() {
-		// TODO Auto-generated method stub
 		return this.denominator;
 	}
 }
