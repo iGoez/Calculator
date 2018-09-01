@@ -44,13 +44,22 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 
 	@Override
 	public void divideRational(RationalNumber<Number> rationalQuocient) {
-		
-
+		this.numerator = multiply(numerator, (T) rationalQuocient.getDenominator());
+		this.denominator = multiply(denominator, (T) rationalQuocient.getNumerator());
+		simplifyRational();
 	}
 	
-	private T divide(T d1, T d2) {
+	private T divide(T n1, T n2) {
 		T number = null;
-		return null;
+
+		if (n1 instanceof Long || n2 instanceof Long) {
+			number = (T) Long.valueOf(n1.longValue() * n2.longValue());
+		} else if (n1 instanceof Short || n2 instanceof Short) {
+			number = (T) Short.valueOf((short) (n1.shortValue() * n2.shortValue()));
+		} else {
+			number = (T) Integer.valueOf(n1.intValue() * n2.intValue());
+		}
+		return number;
 	}
 
 	@Override
