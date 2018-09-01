@@ -120,8 +120,17 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 
 	@Override
 	public void squaredRational() {
-		// TODO Auto-generated method stub
-
+		if (numerator instanceof Long || denominator instanceof Long) {
+			numerator = (T) Long.valueOf(numerator.longValue() * numerator.longValue());
+			denominator = (T) Long.valueOf(denominator.longValue() * denominator.longValue());
+		} else if (numerator instanceof Short || denominator instanceof Short) {
+			numerator = (T) Short.valueOf((short) (numerator.shortValue() * numerator.shortValue()));
+			denominator = (T) Short.valueOf((short) (denominator.shortValue() * denominator.shortValue()));
+		} else {
+			numerator = (T) Integer.valueOf(numerator.intValue() * numerator.intValue());
+			denominator = (T) Integer.valueOf(denominator.intValue() * denominator.intValue());
+		}
+		simplifyRational();
 	}
 
 	@Override
