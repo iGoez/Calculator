@@ -1,0 +1,219 @@
+package interfaz;
+
+import java.awt.Font;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+public class CalculatorPrincipal extends JFrame implements ActionListener{
+	
+	private JPanel Pcalculator;
+	
+	private TextField txtScreen1;
+	private TextField txtScreen2;
+	private TextField txtScreen3;
+	private TextField txtScreen4;
+	private TextField txtScreen5;
+	private TextField txtScreen6;
+	
+	private JButton butOne;
+	private JButton butTwo;
+	private JButton butThree;
+	private JButton butFour;
+	private JButton butFive;
+	private JButton butSix;
+	private JButton butSeven;
+	private JButton butEigth;
+	private JButton butNine;
+	private JButton butZero;
+	private JButton butDelete;
+	private JButton butMultiply;
+	private JButton butDivide;
+	private JButton butAdd;
+	private JButton buSusb;
+	private JButton butSymplify;
+	private JButton butSquare;
+	private JButton butInverse;
+	
+	public CalculatorPrincipal() {
+		Pcalculator = (JPanel) this.getContentPane();
+		Pcalculator.setLayout(null);
+		setSize(350, 350);
+		setTitle("Cálculadora");
+		setResizable(false);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
+		calculatorParts();
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		String command = e.getActionCommand();
+		long value1 = 0;
+		long value2 = 0;
+		long value3 = 0;
+		long value4 = 0;
+		
+		if(command.equalsIgnoreCase("+")) {
+			try {
+				value1 = Long.valueOf(txtScreen1.getText());
+				value2 = Long.valueOf(txtScreen2.getText());
+				value3 = Long.valueOf(txtScreen3.getText());
+				value4 = Long.valueOf(txtScreen4.getText());
+				
+				
+			} catch (NumberFormatException e2) {
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores.");
+			}
+		}
+	}
+	
+	public void calculatorParts () {
+		
+		//SCREEN´S
+		txtScreen1 = new TextField();
+		txtScreen1.setBounds(22, 8, 96, 35);
+		add(txtScreen1);
+		
+		txtScreen2 = new TextField();
+		txtScreen2.setBounds(22, 45, 96, 35);
+		add(txtScreen2);
+		
+		txtScreen3 = new TextField();
+		txtScreen3.setBounds(120, 8, 96, 35);
+		add(txtScreen3);
+		
+		txtScreen4 = new TextField();
+		txtScreen4.setBounds(120, 45, 96, 35);
+		add(txtScreen4);
+		
+		txtScreen5 = new TextField();
+		txtScreen5.setBounds(218, 8, 96, 35);
+		txtScreen5.setEditable(false);
+		add(txtScreen5);
+		
+		txtScreen6 = new TextField();
+		txtScreen6.setBounds(218, 45, 96, 35);
+		txtScreen6.setEditable(false);
+		add(txtScreen6);
+		
+		//NUMBERS
+		
+		butOne = new JButton("1");
+		butOne.setBounds(22, 83, 50, 40);
+		butOne.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butOne);
+		
+		butTwo = new JButton("2");
+		butTwo.setBounds(87, 83, 50, 40);
+		butTwo.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butTwo);
+		
+		butThree = new JButton("3");
+		butThree.setBounds(152, 83, 50, 40);
+		butThree.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butThree);
+		
+		butFour = new JButton("4");
+		butFour.setBounds(22, 138, 50, 40);
+		butFour.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butFour);
+
+		butFive = new JButton("5");
+		butFive.setBounds(87, 138, 50, 40);
+		butFive.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butFive);
+		
+		butSix = new JButton("6");
+		butSix.setBounds(152, 138, 50, 40);
+		butSix.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butSix);
+		
+		butSeven = new JButton("7");
+		butSeven.setBounds(22, 193, 50, 40);
+		butSeven.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butSeven);
+		
+		butEigth = new JButton("8");
+		butEigth.setBounds(87, 193, 50, 40);
+		butEigth.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butEigth);
+		
+		butNine = new JButton("9");
+		butNine.setBounds(152, 193, 50, 40);
+		butNine.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butNine);
+		
+		butZero = new JButton("0");
+		butZero.setBounds(87, 245, 50, 40);
+		butZero.setFont(new Font("Arial", Font.BOLD, 20));
+		add(butZero);
+		
+		butDelete = new JButton("AC");
+		butDelete.setBounds(217, 83, 90, 40);
+		butDelete.setFont(new Font("Arial", Font.BOLD, 12));
+		add(butDelete);
+		
+		//OPERATIONS
+		
+		butAdd = new JButton("+");
+		butAdd.setBounds(217, 138, 42, 40);
+		butAdd.setFont(new Font("Arial", Font.BOLD, 10));
+		butAdd.setActionCommand("+");
+		butAdd.addActionListener(this);
+		add(butAdd);
+		
+		buSusb = new JButton("-");
+		buSusb.setBounds(267, 138, 40, 40);
+		buSusb.setFont(new Font("Arial", Font.BOLD, 18));
+		buSusb.setActionCommand("-");
+		buSusb.addActionListener(this);
+		add(buSusb);
+		
+		butMultiply = new JButton("*");
+		butMultiply.setBounds(217, 193, 42, 40);
+		butMultiply.setFont(new Font("Arial", Font.BOLD, 20));
+		butMultiply.setActionCommand("*");
+		butMultiply.addActionListener(this);
+		add(butMultiply);
+		
+		butDivide = new JButton("/");
+		butDivide.setBounds(267, 193, 40, 40);
+		butDivide.setFont(new Font("Arial", Font.BOLD, 20));
+		butDivide.setActionCommand("/");
+		butDivide.addActionListener(this);
+		add(butDivide);
+
+		butSquare = new JButton("x^2");
+		butSquare.setBounds(22, 245, 55, 40);
+		butSquare.setFont(new Font("Arial", Font.BOLD, 10));
+		butSquare.setActionCommand("x^2");
+		butSquare.addActionListener(this);
+		add(butSquare);
+		
+		butInverse = new JButton("x^-1");
+		butInverse.setBounds(152, 245, 55, 40);
+		butInverse.setFont(new Font("Arial", Font.BOLD, 10));
+		butInverse.setActionCommand("x^-1");
+		butInverse.addActionListener(this);
+		add(butInverse);
+		
+		butSymplify = new JButton("Simplificar");
+		butSymplify.setBounds(217, 245, 90, 40);
+		butSymplify.setFont(new Font("Arial", Font.BOLD, 10));
+		butSymplify.setActionCommand("Simplificar");
+		butSymplify.addActionListener(this);
+		add(butSymplify);
+	}
+	
+	public static void main(String[] args) {
+		CalculatorPrincipal cal = new CalculatorPrincipal();
+		cal.repaint();;
+	}
+}
