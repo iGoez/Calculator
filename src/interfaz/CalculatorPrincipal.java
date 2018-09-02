@@ -10,9 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import model.PrincipalClass;
+import numericSystem.OperationError;
+
 public class CalculatorPrincipal extends JFrame implements ActionListener{
 	
 	private JPanel Pcalculator;
+	
+	private PrincipalClass pClass;
 	
 	private TextField txtScreen1;
 	private TextField txtScreen2;
@@ -31,6 +36,7 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 	private JButton butEigth;
 	private JButton butNine;
 	private JButton butZero;
+	
 	private JButton butDelete;
 	private JButton butMultiply;
 	private JButton butDivide;
@@ -41,6 +47,8 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 	private JButton butInverse;
 	
 	public CalculatorPrincipal() {
+		pClass = new PrincipalClass();
+		
 		Pcalculator = (JPanel) this.getContentPane();
 		Pcalculator.setLayout(null);
 		setSize(350, 350);
@@ -55,23 +63,165 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String command = e.getActionCommand();
-		long value1 = 0;
-		long value2 = 0;
-		long value3 = 0;
-		long value4 = 0;
+		long n1 = 0;
+		long d1 = 0;
+		long n2 = 0;
+		long d2 = 0;
+		
+		txtScreen1.getText();
+		txtScreen2.getText();
+		txtScreen3.getText();
+		txtScreen4.getText();
 		
 		if(command.equalsIgnoreCase("+")) {
 			try {
-				value1 = Long.valueOf(txtScreen1.getText());
-				value2 = Long.valueOf(txtScreen2.getText());
-				value3 = Long.valueOf(txtScreen3.getText());
-				value4 = Long.valueOf(txtScreen4.getText());
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				n2 = Long.valueOf(txtScreen3.getText());
+				d2 = Long.valueOf(txtScreen4.getText());
 				
+				txtScreen5.setText(pClass.addRational(n1, d1, n2, d2).getNumerator()+"");
+				txtScreen6.setText(pClass.addRational(n1, d1, n2, d2).getDenominator()+"");
 				
 			} catch (NumberFormatException e2) {
-				JOptionPane.showMessageDialog(null, "Ingrese todos los valores.");
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El denominador no puede ser igual a cero.");
 			}
+		}else if(command.equalsIgnoreCase("-")){
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				n2 = Long.valueOf(txtScreen3.getText());
+				d2 = Long.valueOf(txtScreen4.getText());
+				
+				txtScreen5.setText(pClass.substractRational(n1, d1, n2, d2).getNumerator()+"");
+				txtScreen6.setText(pClass.substractRational(n1, d1, n2, d2).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El denominador no puede ser igual a cero.");
+			}
+		}else if(command.equalsIgnoreCase("*")) {
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				n2 = Long.valueOf(txtScreen3.getText());
+				d2 = Long.valueOf(txtScreen4.getText());
+				
+				txtScreen5.setText(pClass.multiplyRational(n1, d1, n2, d2).getNumerator()+"");
+				txtScreen6.setText(pClass.multiplyRational(n1, d1, n2, d2).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El denominador no puede ser igual a cero.");
+			}
+		}else if(command.equalsIgnoreCase("/")) {
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				n2 = Long.valueOf(txtScreen3.getText());
+				d2 = Long.valueOf(txtScreen4.getText());
+				
+				txtScreen5.setText(pClass.divideRational(n1, d1, n2, d2).getNumerator()+"");
+				txtScreen6.setText(pClass.divideRational(n1, d1, n2, d2).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El valor no puede ser igual a cero");
+			}
+		}else if(command.equalsIgnoreCase("Simplificar")) {
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				
+				txtScreen3.setText("");
+				txtScreen4.setText("");
+				txtScreen5.setText(pClass.simplifyRational(n1, d1).getNumerator()+"");
+				txtScreen6.setText(pClass.simplifyRational(n1, d1).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El valor no puede ser igual a cero");
+			}
+		}else if(command.equalsIgnoreCase("x^-1")) {
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				
+				txtScreen3.setText("");
+				txtScreen4.setText("");
+				txtScreen5.setText(pClass.rationalInverse(n1, d1).getNumerator()+"");
+				txtScreen6.setText(pClass.rationalInverse(n1, d1).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El valor no puede ser igual a cero");
+			}
+		}else if(command.equalsIgnoreCase("x^2")) {
+			try {
+				n1 = Long.valueOf(txtScreen1.getText());
+				d1 = Long.valueOf(txtScreen2.getText());
+				
+				txtScreen3.setText("");
+				txtScreen4.setText("");
+				txtScreen5.setText(pClass.squaredRational(n1, d1).getNumerator()+"");
+				txtScreen6.setText(pClass.squaredRational(n1, d1).getDenominator()+"");
+				
+			} catch (NumberFormatException e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "Ingrese todos los valores y/o corrijalos.");
+			}catch (OperationError e2) {
+				txtScreen5.setText("");
+				txtScreen6.setText("");
+				JOptionPane.showMessageDialog(null, "El valor no puede ser igual a cero");
+			}
+		}else if(command.equalsIgnoreCase("AC")) {
+			txtScreen1.setText("");
+			txtScreen2.setText("");
+			txtScreen3.setText("");
+			txtScreen4.setText("");
+			txtScreen5.setText("");
+			txtScreen6.setText("");
+		}else {
+			auxiliary(e);
 		}
+	}
+	
+	public void auxiliary (ActionEvent e) {
+		String command = e.getActionCommand();
+		
+		System.out.println("Si funcionaa!");
 	}
 	
 	public void calculatorParts () {
@@ -153,11 +303,15 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 		butZero = new JButton("0");
 		butZero.setBounds(87, 245, 50, 40);
 		butZero.setFont(new Font("Arial", Font.BOLD, 20));
+		butZero.setActionCommand("0");
+		butZero.addActionListener(this);
 		add(butZero);
 		
 		butDelete = new JButton("AC");
 		butDelete.setBounds(217, 83, 90, 40);
 		butDelete.setFont(new Font("Arial", Font.BOLD, 12));
+		butDelete.setActionCommand("AC");
+		butDelete.addActionListener(this);
 		add(butDelete);
 		
 		//OPERATIONS

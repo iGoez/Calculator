@@ -15,7 +15,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 		if(denominator.intValue() != 0) {
 			isCorrect = true;
 		}else {
-			throw new OperationError();
+			throw new OperationError("");
 		}
 		
 		return isCorrect;
@@ -132,7 +132,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 	@Override
 	public void divideRational(RationalNumber<Number> rationalQuocient) throws OperationError {
 		if(verifyDenominatorNumber(denominator) && verifyDenominatorNumber((T)rationalQuocient.getDenominator())
-		  && verifyDenominatorNumber(numerator) && verifyDenominatorNumber((T)rationalQuocient.getNumerator())) {
+		   && verifyDenominatorNumber((T)rationalQuocient.getNumerator())) {
 			
 			this.numerator = multiply(numerator, (T) rationalQuocient.getDenominator());
 			this.denominator = multiply(denominator, (T) rationalQuocient.getNumerator());
@@ -142,7 +142,7 @@ public class RationalNumber<T extends Number> implements IRationalNumber<T> {
 
 	@Override
 	public void simplifyRational() throws OperationError {
-		if(verifyDenominatorNumber(denominator)) {
+		if(verifyDenominatorNumber(denominator) && numerator.longValue()!=0) {
 			T simplify = mcd();
 			
 			switch (verifyNumberData()) {
