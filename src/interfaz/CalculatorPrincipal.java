@@ -221,7 +221,27 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 	public void auxiliary (ActionEvent e) {
 		String command = e.getActionCommand();
 		
-		System.out.println("Si funcionaa!");
+		if(command.equalsIgnoreCase("1")) {
+			
+		}else if(command.equalsIgnoreCase("2")) {
+			
+		}else if(command.equalsIgnoreCase("3")) {
+			
+		}else if(command.equalsIgnoreCase("4")) {
+			
+		}else if(command.equalsIgnoreCase("5")) {
+			
+		}else if(command.equalsIgnoreCase("6")) {
+			
+		}else if(command.equalsIgnoreCase("7")) {
+			
+		}else if(command.equalsIgnoreCase("8")) {
+			
+		}else if(command.equalsIgnoreCase("9")) {
+			
+		}else if(command.equalsIgnoreCase("0")) {
+			
+		}
 	}
 	
 	public void calculatorParts () {
@@ -258,6 +278,8 @@ public class CalculatorPrincipal extends JFrame implements ActionListener{
 		butOne = new JButton("1");
 		butOne.setBounds(22, 83, 50, 40);
 		butOne.setFont(new Font("Arial", Font.BOLD, 20));
+		butOne.setActionCommand("1");
+		butOne.addActionListener(this);
 		add(butOne);
 		
 		butTwo = new JButton("2");
